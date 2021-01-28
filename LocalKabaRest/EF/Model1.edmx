@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="LocalServicesDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'LocalServicesDB.dbo.InterfaceIn' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="InterfaceIn">
+          <Key>
+            <PropertyRef Name="InterfaceInId" />
+            <PropertyRef Name="InterfaceID" />
+          </Key>
+          <Property Name="InterfaceInId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="InterfaceID" Type="int" Nullable="false" />
+          <Property Name="RequestDate" Type="datetime" />
+          <Property Name="RequestData" Type="nvarchar" MaxLength="2000" />
+          <Property Name="ErrorMsg" Type="nvarchar" MaxLength="1000" />
+          <Property Name="StatusId" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'LocalServicesDB.dbo.tt1' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="tt1">
+          <Property Name="t1" Type="int" />
+        </EntityType>-->
+        <Function Name="GetPrvCaseDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="inLongitude" Type="float" Mode="In" />
+          <Parameter Name="inLatitude" Type="float" Mode="In" />
+          <Parameter Name="inRadius" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetPrvContacts" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="inPrvId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="GetPrvOperationalInfo" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="inPrvId" Type="int" Mode="In" />
+        </Function>
+        <Function Name="SetInterfaceIn" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="inRequestData" Type="nvarchar" Mode="In" />
+          <Parameter Name="inErrorMsg" Type="nvarchar" Mode="In" />
+          <Parameter Name="inStatusId" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="LocalServicesDBModelStoreContainer">
+          <EntitySet Name="InterfaceIn" EntityType="Self.InterfaceIn" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [InterfaceIn].[InterfaceInId] AS [InterfaceInId], 
+    [InterfaceIn].[InterfaceID] AS [InterfaceID], 
+    [InterfaceIn].[RequestDate] AS [RequestDate], 
+    [InterfaceIn].[RequestData] AS [RequestData], 
+    [InterfaceIn].[ErrorMsg] AS [ErrorMsg], 
+    [InterfaceIn].[StatusId] AS [StatusId]
+    FROM [dbo].[InterfaceIn] AS [InterfaceIn]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LocalServicesDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="LocalServicesDBEntities" annotation:LazyLoadingEnabled="true" >
+          <FunctionImport Name="GetPrvCaseDetails" ReturnType="Collection(LocalServicesDBModel.GetPrvCaseDetails_Result)">
+            <Parameter Name="inLongitude" Mode="In" Type="Double" />
+            <Parameter Name="inLatitude" Mode="In" Type="Double" />
+            <Parameter Name="inRadius" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="InterfaceIns" EntityType="LocalServicesDBModel.InterfaceIn" />
+          <FunctionImport Name="GetPrvContacts" ReturnType="Collection(LocalServicesDBModel.GetPrvContacts_Result)">
+            <Parameter Name="inPrvId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="GetPrvOperationalInfo" ReturnType="Collection(LocalServicesDBModel.GetPrvOperationalInfo_Result)">
+            <Parameter Name="inPrvId" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="SetInterfaceIn" ReturnType="Collection(Int32)">
+            <Parameter Name="inRequestData" Mode="In" Type="String" />
+            <Parameter Name="inErrorMsg" Mode="In" Type="String" />
+            <Parameter Name="inStatusId" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GetPrvCaseDetails_Result">
+          <Property Type="Int32" Name="PreventionCaseId" Nullable="false" />
+          <Property Type="String" Name="CaseName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="CaseType" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="AirDistanceFromPoint" Nullable="false" />
+          <Property Type="String" Name="FullAddressDesc" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="DialerAuthorized" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="InterfaceIn">
+          <Key>
+            <PropertyRef Name="InterfaceInId" />
+            <PropertyRef Name="InterfaceID" />
+          </Key>
+          <Property Name="InterfaceInId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="InterfaceID" Type="Int32" Nullable="false" />
+          <Property Name="RequestDate" Type="DateTime" Precision="3" />
+          <Property Name="RequestData" Type="String" MaxLength="2000" FixedLength="false" Unicode="true" />
+          <Property Name="ErrorMsg" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="StatusId" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="GetPrvContacts_Result">
+          <Property Type="String" Name="ContactFullName" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Contact" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactPhone1" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="ContactPhone2" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ContactPhone3" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="ContactUpdatedDate" Nullable="false" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="GetPrvOperationalInfo_Result">
+          <Property Type="String" Name="OperationLabel" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="OperationalInfoDesc" Nullable="false" MaxLength="500" />
+          <Property Type="Int32" Name="OrderNum" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LocalServicesDBModelStoreContainer" CdmEntityContainer="LocalServicesDBEntities" >
+          <FunctionImportMapping FunctionImportName="GetPrvCaseDetails" FunctionName="LocalServicesDBModel.Store.GetPrvCaseDetails">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LocalServicesDBModel.GetPrvCaseDetails_Result">
+                <ScalarProperty Name="PreventionCaseId" ColumnName="PreventionCaseId" />
+                <ScalarProperty Name="CaseName" ColumnName="CaseName" />
+                <ScalarProperty Name="CaseType" ColumnName="CaseType" />
+                <ScalarProperty Name="AirDistanceFromPoint" ColumnName="AirDistanceFromPoint" />
+                <ScalarProperty Name="FullAddressDesc" ColumnName="FullAddressDesc" />
+                <ScalarProperty Name="DialerAuthorized" ColumnName="DialerAuthorized" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="InterfaceIns">
+            <EntityTypeMapping TypeName="LocalServicesDBModel.InterfaceIn">
+              <MappingFragment StoreEntitySet="InterfaceIn">
+                <ScalarProperty Name="StatusId" ColumnName="StatusId" />
+                <ScalarProperty Name="ErrorMsg" ColumnName="ErrorMsg" />
+                <ScalarProperty Name="RequestData" ColumnName="RequestData" />
+                <ScalarProperty Name="RequestDate" ColumnName="RequestDate" />
+                <ScalarProperty Name="InterfaceID" ColumnName="InterfaceID" />
+                <ScalarProperty Name="InterfaceInId" ColumnName="InterfaceInId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetPrvContacts" FunctionName="LocalServicesDBModel.Store.GetPrvContacts">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LocalServicesDBModel.GetPrvContacts_Result">
+                <ScalarProperty Name="ContactFullName" ColumnName="ContactFullName" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="ContactPhone1" ColumnName="ContactPhone1" />
+                <ScalarProperty Name="ContactPhone2" ColumnName="ContactPhone2" />
+                <ScalarProperty Name="ContactPhone3" ColumnName="ContactPhone3" />
+                <ScalarProperty Name="ContactUpdatedDate" ColumnName="ContactUpdatedDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetPrvOperationalInfo" FunctionName="LocalServicesDBModel.Store.GetPrvOperationalInfo">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="LocalServicesDBModel.GetPrvOperationalInfo_Result">
+                <ScalarProperty Name="OperationLabel" ColumnName="OperationLabel" />
+                <ScalarProperty Name="OperationalInfoDesc" ColumnName="OperationalInfoDesc" />
+                <ScalarProperty Name="OrderNum" ColumnName="OrderNum" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SetInterfaceIn" FunctionName="LocalServicesDBModel.Store.SetInterfaceIn" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
