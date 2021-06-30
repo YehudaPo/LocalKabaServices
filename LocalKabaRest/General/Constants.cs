@@ -9,5 +9,7 @@ namespace LocalKabaRest.General
     {
         public static int REQUEST_STATUS_OK = 1;
         public static int REQUEST_STATUS_ERROR = 2;
+
+        public static string SMS_KEY = "KB7291";
     }
 }

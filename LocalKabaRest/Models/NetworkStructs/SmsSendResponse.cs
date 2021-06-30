@@ -7,12 +7,12 @@ namespace LocalKabaRest.Models.NetworkStructs
 {
     public class SmsSendResponse
     {     
-        public int Status;
+        public string Status;
         public string ErrorMsg;
  
         public SmsSendResponse()
         {
-            Status = General.Constants.REQUEST_STATUS_OK;
+            Status = "";
             ErrorMsg = "";
         }
     }

@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Net.Http;
 using System.Web.Http;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace LocalKabaRest.Controllers
 {
@@ -25,52 +25,60 @@ namespace LocalKabaRest.Controllers
         */
         [HttpGet]
         [Route("sms/SendSms")]///{ExternalInterfaceKey}&{Longitude}&{Latitude}&{Radius}")]
-        public IHttpActionResult Get(string message,
-                                     string recepients)
+        public async Task<IHttpActionResult> Get(string key, string message,
+                                     string recipients)
         {
 
             Models.NetworkStructs.SmsSendResponse sResponse = new Models.NetworkStructs.SmsSendResponse();
             //     new Dals.PrvDals().GetPrvCaseDetails(ExternalInterfaceKey, Longitude, Latitude, Radius);
 
-            string text1 = "<Inforu>" +
-                   "<User>" +
-                   "<Username>smsapp</Username>" +
-                   "<Password>Aa@102102</Password>" +
-                   "</User>" +
-                   "<Content Type=\"sms\">" +
-                   "<Message>" + message + "</Message>" +
-                   "</Content>" +
-                   "<Recipients>" +
-                   "<PhoneNumber>" + recepients + "</PhoneNumber>" +
-                   "</Recipients>" +
-                   "<Settings>" +
-                   "<Sender>KabaApp</Sender>" +
-                   "</Settings>" +
-                   "</Inforu>";
+            if (key == General.Constants.SMS_KEY)
+            {
 
-            HttpClient client = new HttpClient();
+                string text1 = "<Inforu>" +
+                       "<User>" +
+                       "<Username>smsapp</Username>" +
+                       "<Password>Aa@102102</Password>" +
+                       "</User>" +
+                       "<Content Type=\"sms\">" +
+                       "<Message>" + message + "</Message>" +
+                       "</Content>" +
+                       "<Recipients>" +
+                       "<PhoneNumber>" + recipients + "</PhoneNumber>" +
+                       "</Recipients>" +
+                       "<Settings>" +
+                       "<Sender>KabaApp</Sender>" +
+                       "</Settings>" +
+                       "</Inforu>";
 
-            //  http://portal16-service/api/AD?searchparam=EMPLOYEEID&_name=306041914&start=false
+                HttpClient client = new HttpClient();
 
-            string URL = "https://uapi.inforu.co.il/SendMessageXml.ashx?InforuXML=" + text1;
+                //  http://portal16-service/api/AD?searchparam=EMPLOYEEID&_name=306041914&start=false
 
-            client.BaseAddress = new Uri(URL);
+                string URL = "https://uapi.inforu.co.il/SendMessageXml.ashx?InforuXML=" + text1;
 
-            // Add an Accept header for JSON format.
-            //client.DefaultRequestHeaders.Accept.Add(
-            //new MediaTypeWithQualityHeaderValue("application/json"));
+                client.BaseAddress = new Uri(URL);
 
-            // List data response.
-            //HttpResponseMessage response = client.PostAsync(URL);  // Blocking call! Program will wait here until a response is received or a timeout occurs.
+                // Add an Accept header for JSON format.
+                //client.DefaultRequestHeaders.Accept.Add(
+                //new MediaTypeWithQualityHeaderValue("application/json"));
 
-            var httpClient = new HttpClient();
-            var someXmlString = text1;
-            var stringContent = new StringContent(someXmlString, Encoding.UTF8, "application/xml");
-            var response = await httpClient.PostAsync(URL, stringContent);
+                // List data response.
+                //HttpResponseMessage response = client.PostAsync(URL);  // Blocking call! Program will wait here until a response is received or a timeout occurs.
 
-            
+                var httpClient = new HttpClient();
+                var someXmlString = text1;
+                var stringContent = new StringContent(someXmlString, Encoding.UTF8, "application/xml");
+                var response = await httpClient.PostAsync(URL, stringContent);
 
-            client.Dispose();
+                sResponse.Status = response.StatusCode.ToString();
+
+                client.Dispose();
+            }
+            else {
+                sResponse.Status = "Failed";
+                sResponse.ErrorMsg = "Bad key";
+            }
 
 
             return Json(sResponse);
