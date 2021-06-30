@@ -162,6 +162,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\SmsController.cs" />
     <Compile Include="Controllers\GetPrvCaseDetailsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TestController.cs" />
@@ -201,6 +202,7 @@
       <DependentUpon>Model1.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\InterfaceIn.cs" />
+    <Compile Include="Models\NetworkStructs\SmsSendResponse.cs" />
     <Compile Include="Models\OperationInfo.cs" />
     <Compile Include="Models\FileLink.cs" />
     <Compile Include="Models\CaseContact.cs" />
