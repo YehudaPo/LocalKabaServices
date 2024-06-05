@@ -26,14 +26,16 @@ namespace LocalKabaRest.Controllers
         [HttpGet]
         [Route("sms/SendSms")]///{ExternalInterfaceKey}&{Longitude}&{Latitude}&{Radius}")]
         public async Task<IHttpActionResult> Get(string key, string message,
-                                     string recipients)
+                                     string recipients, string sender = "KabaApp")
         {
 
             Models.NetworkStructs.SmsSendResponse sResponse = new Models.NetworkStructs.SmsSendResponse();
             //     new Dals.PrvDals().GetPrvCaseDetails(ExternalInterfaceKey, Longitude, Latitude, Radius);
+       
 
             if (key == General.Constants.SMS_KEY)
             {
+      
 
                 string text1 = "<Inforu>" +
                        "<User>" +
@@ -47,10 +49,10 @@ namespace LocalKabaRest.Controllers
                        "<PhoneNumber>" + recipients + "</PhoneNumber>" +
                        "</Recipients>" +
                        "<Settings>" +
-                       "<Sender>KabaApp</Sender>" +
+                       "<Sender>" + sender + "</Sender>" +
                        "</Settings>" +
                        "</Inforu>";
-
+               
                 HttpClient client = new HttpClient();
 
                 //  http://portal16-service/api/AD?searchparam=EMPLOYEEID&_name=306041914&start=false
@@ -70,14 +72,14 @@ namespace LocalKabaRest.Controllers
                 var someXmlString = text1;
                 var stringContent = new StringContent(someXmlString, Encoding.UTF8, "application/xml");
                 var response = await httpClient.PostAsync(URL, stringContent);
-
-                sResponse.Status = response.StatusCode.ToString();
-
+                
+                sResponse.Status = response.StatusCode.ToString(); 
                 client.Dispose();
             }
             else {
                 sResponse.Status = "Failed";
                 sResponse.ErrorMsg = "Bad key";
+             
             }
 
 
